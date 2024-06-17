@@ -14,12 +14,10 @@ from airflow.models import Variable
 default_args = {
     'owner': 'avyu',
     'depends_on_past': False,
-    'start_date': datetime(2024, 6, 17),
     'email_on_failure': True,
     'email_on_retry': False,
     'retries': 1,
-    'retry_delay': timedelta(seconds=10),  # Retry every 30 seconds in case of failure
-    'catchup':False,
+    'retry_delay': timedelta(minutes=1),  # Retry every 30 seconds in case of failure
 }
 
 # Define DAG with cron scheduling
@@ -27,8 +25,9 @@ dag = DAG(
     'Backup_Database',
     default_args=default_args,
     description='Daily backup of database and email notification',
-    #schedule_interval=timedelta(minutes=5),  
-    schedule_interval='0 0 * * *',  # m hr d mon day
+    schedule_interval='*/10 * * * *',  # Every 10 minutes
+    start_date=datetime(2024, 6, 17),  # Specify start date if not using in default_args
+    catchup=False,
 )
 
 backup_task=BashOperator(
