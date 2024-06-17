@@ -17,8 +17,8 @@ default_args = {
     'start_date': datetime(2024, 6, 17),
     'email_on_failure': True,
     'email_on_retry': False,
-    'retries': 2,
-    'retry_delay': timedelta(minutes=2),  # Retry every 30 seconds in case of failure
+    'retries': 1,
+    'retry_delay': timedelta(seconds=10),  # Retry every 30 seconds in case of failure
     'catchup':False,
 }
 
@@ -27,8 +27,8 @@ dag = DAG(
     'Backup_Database',
     default_args=default_args,
     description='Daily backup of database and email notification',
-    schedule_interval=timedelta(minutes=1),  
-    # schedule_interval='*/30 * * * * *',  
+    #schedule_interval=timedelta(minutes=5),  
+    schedule_interval='0 0 * * *',  # m hr d mon day
 )
 
 backup_task=BashOperator(

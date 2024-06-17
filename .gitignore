@@ -2,3 +2,4 @@ logs
 sqlDumps
 credentials.json
 airflow.cfg
+airflow-webserver.pid
